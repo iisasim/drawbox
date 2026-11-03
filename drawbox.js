@@ -155,7 +155,35 @@ document.getElementById("submit").addEventListener("click", async function () {
 function scrollGallery(direction) {
   const gallery = document.getElementById("gallery");
   if (gallery) {
-    gallery.scrollBy({ left: direction * 100, behavior: 'smooth' });
+    gallery.scrollBy({ left: direction * 100, behavior: 'auto' });
+  }
+}
+
+// Ottaa mukaan sekä lyhyen päivämäärän että kellonajan (esim. 3.11.26 19:05)
+
+function formatTimestamp(rawTimestamp) {
+  try {
+    let cleaned = rawTimestamp.trim().replace(/"/g, "");
+    
+    // Etsitään merkkijonosta kohta, jossa on päivämäärä (sisältää pisteitä)
+    let words = cleaned.split(' ');
+    for (let word of words) {
+      if (word.includes('.')) {
+        let p = word.split('.');
+        if (p.length >= 3) {
+          let d = p[0];
+          let m = p[1];
+          let y = p[2];
+          if (y.length === 4) y = y.slice(-2);
+          return `${d}.${m}.${y}`;
+        }
+      }
+    }
+    
+    // Jos ei löydy pisteellistä päivää, palautetaan ensimmäinen osa sellaisenaan
+    return words[0];
+  } catch (e) {
+    return rawTimestamp;
   }
 }
 
@@ -173,7 +201,8 @@ async function fetchImages() {
       const columns = row.split(",");
       if (columns.length < 2) return;
 
-      const timestamp = columns[0].trim().toLowerCase();
+      const rawTimestamp = columns[0].trim().replace(/"/g, "");
+      const timestamp = formatTimestamp(rawTimestamp); // <--- Käytetään lyhennysfunktiota
       const imgUrl = columns[1].trim().replace(/"/g, "");
       const author = columns[2].trim().replace(/"/g, "").toLowerCase();
       const approved = columns[3].trim().replace(/"/g, "");
@@ -184,7 +213,7 @@ async function fetchImages() {
         // Näkyy: [aika], taiteilija: [nimi]
         div.innerHTML = `
           <img src="${imgUrl}" alt="piirustus" class="drawbox">
-          <div style="font-size: 5px; line-height: 1.2;">
+          <div style="font-size: 9px; line-height: 1.2;">
             ${timestamp}<br>taiteilija: ${author}
           </div>
         `;
@@ -221,6 +250,8 @@ async function fetchImages() {
     });
   }); 
 }
+
+
 
 fetchImages();
 
