@@ -1,203 +1,120 @@
-  
-   /* ####### tutorial styling - feel free to remove when you copy over ######*/
-   .blue{background-color:cyan;}
-   .yellow{background-color:yellow;}
-   .green{background-color:lime;}
-   .magenta{background-color:magenta;}
-   
-    #form{
-       display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 50%;
-  min-width: 0;
-    margin: 0 auto;
-    }
-    dl{
-      padding: 20px;
-    }
-    dt {
-      font-weight: bold;
-      overflow-wrap: break-word;
-    }
+/* ============================================================
+   IISUN RETRO-PIIRTOALUSTAN TYYLIT (Drawbox)
+   ============================================================ */
 
-    dd{
-      margin-top:5px;
-      overflow-wrap: break-word;
-    }
+:root {
+    --canvasSize: 400px;
+    --borderStyle: 1px solid #e197a4;
+    --retroBg: #fff;
+    --accentPink: #e197a4;
+    --textDark: #564a34;
+}
 
-    .tutorial {
-       justify-content: center;
-        width: 80%;
-        margin: auto;
-           
-    }
-    .stroke_color {
-          width:32px;
-          height:32px;
-          border: solid white 3px;
-        }
+* { box-sizing: border-box; }
 
-    .stroke_color:hover {
-      border: solid rgb(132, 132, 132) 3px;
-    }
+body {
+    font-family: 'Press Start 2P', Helvetica, Verdana, sans-serif;
+    font-size: 8px;
+    background-color: transparent;
+    color: var(--textDark);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-    .colorPalette{
-      display:none;
-    }
-    /* if you like the style of my og page, also added 3maqidrawbox.css to your page :) 
-      please use a different background though please! 
-    */
-    /* ########################################################################*/
+/* Piirtoalustan kontti ja ohjeet */
+.drawbox_con {
+    padding: 10px;
+    background: var(--retroBg);
+    border: var(--borderStyle);
+    border-radius: 4px;
+}
 
+.guide, .des {
+    font-family: Helvetica, Verdana, sans-serif;
+    font-size: 9px;
+    color: var(--textDark);
+    padding: 8px;
+    background: #fff5f7;
+    border: 1px dashed var(--accentPink);
+    margin-bottom: 8px;
+    border-radius: 3px;
+    width: var(--canvasSize);
+}
 
-      /* have the max width be the size of your canvas */          
- @media screen and (max-width: 500px) {
-  canvas {
-     width: 100%;         
-     aspect-ratio: 1 / 1;
-     
-  }
-   #controls, .des{
-                     width: 100%; 
-                }
-
-  .guide{
-    padding: 5px;
-  }
-
-    
-   .flex {
+/* Canvas ja kontrollit */
+canvas {
+    border: var(--borderStyle);
+    background-color: #ffffff;
+    cursor: crosshair;
     display: block;
-   }
-                
- }
-      
-   :root {
-     --canvasSize: 502px;
-     --borderStyle: 1px solid black;
-   } 
+    margin-bottom: 6px;
+    border-radius: 2px;
+}
 
-    * {box-sizing: border-box;}
+#controls {
+    width: var(--canvasSize);
+    border: var(--borderStyle);
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #fff9fa;
+    border-radius: 3px;
+}
 
+.flex {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 
-        body{
-            font-family: Helvetica, Verdana;
-             width: 100%;   
-        }
-  
-        canvas {
-            border: 1px solid black;
-            cursor: crosshair;
-        }
-        .drawbox_con{
-           
-            padding: 20px;
-        }
-       
-        #gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            padding: 20px;
-                }
+/* Väripaletit ja napit */
+.stroke_color {
+    width: 24px;
+    height: 24px;
+    border: solid #fff 2px;
+    box-shadow: 0 0 0 1px var(--accentPink);
+    cursor: pointer;
+}
 
-        
-        .image-container {
-            border: var(--borderStyle);
-            padding: 5px;
-            text-align: center;
-            border-radius: 5px;
-            max-width:300px;
-             
+.stroke_color:hover {
+    border: solid #d48391 2px;
+}
 
-        }
-        .image-container img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-        #controls, .des {
-            width:var(--canvasSize);
-            border:var(--borderStyle); 
-            padding: 5px;
-            margin-bottom:5px;
-            background-color: lightgrey;
-            margin-inline:0px;
-        }
-        
-        .guide{
-          padding: 20px;
-        }
+.colorPalette {
+    display: none;
+}
 
-        .flex {
-          display: flex;
-          flex-direction: row;  
-         
-        }
+/* Galleria */
+#gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+}
 
-        
+.image-container {
+    border: var(--borderStyle);
+    padding: 6px;
+    text-align: center;
+    border-radius: 3px;
+    max-width: 150px;
+    background: #fff;
+}
 
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
 
-
-
-
-
-
-             @media screen and (max-width: 1500px){
-               
-               
-                .drawbox_con{
-                  padding: 20px;
-           
-              }
-
-             #controls, .des{
-                    max-width:100%;
-                }
-
-                                
-             
-               #controls{
-                 max-width:var(--canvasSize);
-               }
-
-            }
-
-
-
-              @media screen and (max-width: 1000px){
-               
-               
-                .drawbox_con{
-                  padding: 0px;
-           
-              }
-
-             #controls, .des{
-                    width: 100%;
-                    max-width:500px;
-                }
-
-                  .flex {
-                  display: block;
-                  }
-         
-                
-                .image-container{
-                   flex-direction: column;
-                  max-width: 100%;
-                }
-
-
-
-            }
-
-                   
-
-        
-
-            
-            
-
-        
+/* Responsiivisuus mobiilille */
+@media screen and (max-width: 500px) {
+    canvas, #controls, .des, .guide {
+        width: 100%;
+        max-width: 100%;
+    }
+    .flex {
+        display: block;
+    }
+}
