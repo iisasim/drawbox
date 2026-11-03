@@ -1,23 +1,22 @@
 /* ============================================================
-   IISUN PIIRTOALUSTAN KOMPAKTIMMAT TYYLIT
+   IISUN PIIRTOALUSTAN TARKISTETUT JA PIENENNETYT TYYLIT
    ============================================================ */
 
 :root {
-    --canvasSize: 360px;
-    --borderStyle: 1px solid #e197a4;
-    --retroBg: #fff;
+    --canvasSize: 280px; /* Pienennetty entisestään */
+    --retroBg: transparent;
     --accentPink: #e197a4;
     --textDark: #564a34;
 }
 
 * { 
     box-sizing: border-box; 
-    text-transform: lowercase; /* Pakottaa kaiken pikkukirjaimille */
+    text-transform: lowercase;
 }
 
 body {
-    font-family: 'Press Start 2P', Helvetica, Verdana, sans-serif;
-    font-size: 7.5px;
+    font-family: Verdana, Helvetica, sans-serif; /* Kaikkialla muualla Verdana */
+    font-size: 7px;
     background-color: transparent;
     color: var(--textDark);
     width: 100%;
@@ -25,20 +24,20 @@ body {
     padding: 0;
 }
 
+/* Poistetaan ulompi reuna ja valkoinen tausta kokonaan */
 .drawbox_con {
-    padding: 6px;
-    background: var(--retroBg);
-    border: var(--borderStyle);
-    border-radius: 3px;
+    padding: 2px;
+    background: transparent;
+    border: none;
 }
 
-/* Canvas ja kontrollit pienennettyinä */
+/* Piirtoalusta */
 canvas {
-    border: var(--borderStyle);
+    border: 1px solid var(--accentPink);
     background-color: #ffffff;
     cursor: crosshair;
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     border-radius: 2px;
     width: var(--canvasSize) !important;
     height: var(--canvasSize) !important;
@@ -46,18 +45,18 @@ canvas {
 
 #controls {
     width: var(--canvasSize);
-    border: var(--borderStyle);
-    padding: 6px;
-    margin-bottom: 6px;
-    background-color: #fff9fa;
-    border-radius: 3px;
-    font-size: 7.5px;
+    border: 1px solid var(--accentPink);
+    padding: 4px;
+    margin-bottom: 4px;
+    background-color: transparent; /* Poistettu vaaleanpunainen tausta */
+    border-radius: 2px;
+    font-size: 6.5px;
 }
 
 input[type="text"], select {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    padding: 3px;
+    font-family: Verdana, Helvetica, sans-serif;
+    font-size: 6.5px;
+    padding: 2px;
     border: 1px solid #e197a4;
     background: #fff;
     color: #564a34;
@@ -66,71 +65,64 @@ input[type="text"], select {
 
 .flex {
     display: flex;
-    flex-direction: row;
-    gap: 8px;
+    flex-direction: column;
+    gap: 4px;
 }
 
-/* Sivuston muutnapit / .toggle-btn -tyyli */
-.toggle-btn {
-    background: #e197a4;
-    color: #fff;
-    border: 1px solid #d48391;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 7px;
-    padding: 4px 8px;
+/* Tarkka nappityyli pyynnöstäsi */
+.action-buttons button {
+    background: #fff;
+    font: 8px 'silkscreen', arial;
+    padding: 3px 8px;
+    color: #e197a4;
+    border: 1px solid #e197a4;
     cursor: pointer;
     border-radius: 2px;
-    margin-right: 4px;
-    margin-top: 4px;
+    margin-right: 3px;
+    margin-top: 3px;
 }
 
-.toggle-btn:hover {
-    background: #d48391;
+.action-buttons button:hover {
+    background: #fff5f7;
 }
 
-/* Väripaletit */
+/* Väripaletit ilman taustaväriä */
 .stroke_color {
-    width: 20px;
-    height: 20px;
-    border: solid #fff 2px;
+    width: 16px;
+    height: 16px;
+    border: solid #fff 1px;
     box-shadow: 0 0 0 1px var(--accentPink);
     cursor: pointer;
 }
 
 .colorPalette {
     display: none;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    gap: 3px;
 }
 
-/* Lähetetyt piirustukset (Galleria) - Pienennettynä */
+/* Lähetetyt piirustukset (Galleria) */
 #gallery {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    padding: 4px 0;
+    gap: 4px;
+    padding: 2px 0;
 }
 
 .image-container {
-    border: var(--borderStyle);
-    padding: 4px;
+    border: 1px solid var(--accentPink);
+    padding: 3px;
     text-align: center;
-    border-radius: 3px;
-    max-width: 100px; /* Pienemmät kuvat galleriassa */
+    border-radius: 2px;
+    max-width: 80px; /* Vielä kompaktimmat kuvat */
     background: #fff;
-    font-size: 6.5px;
+    font-size: 6px;
 }
 
 .image-container img {
     max-width: 100%;
     height: auto;
     display: block;
-    border-radius: 2px;
-}
-
-@media screen and (max-width: 500px) {
-    canvas, #controls {
-        width: 100% !important;
-        max-width: 100%;
-    }
+    border-radius: 1px;
 }
