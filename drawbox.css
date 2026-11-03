@@ -251,5 +251,4 @@ input[type="range"]::-moz-range-thumb {
     margin-top: 10px;
     width: var(--canvasSize);
     display: block;
-    font-weight: bold;
 }
