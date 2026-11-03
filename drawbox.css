@@ -1,9 +1,9 @@
 /* ============================================================
-   IISUN PIIRTOALUSTAN TARKISTETUT JA PIENENNETYT TYYLIT
+   IISUN PIIRTOALUSTAN HIOTUT TYYLIT
    ============================================================ */
 
 :root {
-    --canvasSize: 280px; /* Pienennetty entisestään */
+    --canvasSize: 260px;
     --retroBg: transparent;
     --accentPink: #e197a4;
     --textDark: #564a34;
@@ -15,29 +15,29 @@
 }
 
 body {
-    font-family: Verdana, Helvetica, sans-serif; /* Kaikkialla muualla Verdana */
+    font-family: Verdana, Helvetica, sans-serif;
     font-size: 7px;
     background-color: transparent;
     color: var(--textDark);
     width: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
-/* Poistetaan ulompi reuna ja valkoinen tausta kokonaan */
 .drawbox_con {
     padding: 2px;
     background: transparent;
     border: none;
 }
 
-/* Piirtoalusta */
+/* Piirtoalusta keskitettynä ja kohdistettuna */
 canvas {
     border: 1px solid var(--accentPink);
     background-color: #ffffff;
     cursor: crosshair;
     display: block;
-    margin-bottom: 4px;
+    margin: 0 auto 4px auto;
     border-radius: 2px;
     width: var(--canvasSize) !important;
     height: var(--canvasSize) !important;
@@ -45,10 +45,10 @@ canvas {
 
 #controls {
     width: var(--canvasSize);
+    margin: 0 auto 4px auto;
     border: 1px solid var(--accentPink);
-    padding: 4px;
-    margin-bottom: 4px;
-    background-color: transparent; /* Poistettu vaaleanpunainen tausta */
+    padding: 6px;
+    background-color: transparent;
     border-radius: 2px;
     font-size: 6.5px;
 }
@@ -67,10 +67,16 @@ input[type="text"], select {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    align-items: center;
 }
 
-/* Tarkka nappityyli pyynnöstäsi */
-.action-buttons button {
+/* Nappityyli */
+.action-buttons {
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.action-buttons button, .gallery-nav-container button {
     background: #fff;
     font: 8px 'silkscreen', arial;
     padding: 3px 8px;
@@ -78,36 +84,64 @@ input[type="text"], select {
     border: 1px solid #e197a4;
     cursor: pointer;
     border-radius: 2px;
-    margin-right: 3px;
-    margin-top: 3px;
+    margin: 2px;
 }
 
-.action-buttons button:hover {
+.action-buttons button:hover, .gallery-nav-container button:hover {
     background: #fff5f7;
 }
 
-/* Väripaletit ilman taustaväriä */
+/* VÄRIPALETTI KAHTEEN SARAKKEESEEN (Säästää tilaa) */
+.colorPalette {
+    display: none;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 saraketta */
+    gap: 4px;
+    max-width: 120px;
+}
+
 .stroke_color {
-    width: 16px;
+    width: 100%;
     height: 16px;
     border: solid #fff 1px;
     box-shadow: 0 0 0 1px var(--accentPink);
     cursor: pointer;
+    border-radius: 2px;
 }
 
-.colorPalette {
-    display: none;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    gap: 3px;
+/* Haluamasi otsikkotyyli (.title) */
+.title { 
+    font: bold 9px 'Press Start 2P', cursive; 
+    color: #e197a4; 
+    text-transform: uppercase; 
+    border-bottom: 1px dashed #E4D1CE; 
+    margin-bottom: 6px; 
+    padding-bottom: 2px; 
+    position: relative;
 }
 
-/* Lähetetyt piirustukset (Galleria) */
-#gallery {
+/* GALLERIA JA SELAUS (> 3 kuvaa) */
+.gallery-nav-container {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 4px;
+    width: 100%;
+}
+
+.gallery-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 6px;
     padding: 2px 0;
+    width: 100%;
+    scrollbar-width: none; /* Piilottaa ruman scrollbarin */
+}
+
+.gallery-slider::-webkit-scrollbar {
+    display: none;
 }
 
 .image-container {
@@ -115,9 +149,11 @@ input[type="text"], select {
     padding: 3px;
     text-align: center;
     border-radius: 2px;
-    max-width: 80px; /* Vielä kompaktimmat kuvat */
+    min-width: 80px;
+    max-width: 80px;
     background: #fff;
-    font-size: 6px;
+    font-size: 5.5px;
+    flex: 0 0 auto;
 }
 
 .image-container img {
@@ -125,4 +161,5 @@ input[type="text"], select {
     height: auto;
     display: block;
     border-radius: 1px;
+    margin-bottom: 2px;
 }
