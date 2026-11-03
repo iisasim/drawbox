@@ -3,49 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drawbox - Galleria</title>
+    <title>Drawbox – Galleria</title>
     <link rel="stylesheet" href="drawbox.css">
     <style>
         body {
-            font-family: Verdana, sans-serif;
+            font-family: Helvetica, Verdana, sans-serif;
             background: #fdfdfd;
             padding: 20px;
             text-align: center;
         }
-        .top-bar {
-            margin-bottom: 20px;
+        /* Tehdään galleriasta vaakasuunnassa selattava */
+        #gallery {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 20px;
+            border: var(--borderStyle);
+            background: #fff;
+            max-width: 800px;
+            margin: 0 auto;
         }
-        /* Tyylikäs nappi millä pääsee piirtämään */
-        .draw-btn {
+        .image-container {
+            flex: 0 0 auto; /* Estää kuvia kutistumasta */
+            width: 200px;
+        }
+        .nav-btn-container {
+            margin: 15px;
+        }
+        .retro-btn {
             display: inline-block;
             padding: 10px 20px;
-            background: var(--accentPink, #d63384);
+            background: #d63384;
             color: white;
             text-decoration: none;
             border-radius: 4px;
             font-weight: bold;
         }
-        .draw-btn:hover {
+        .retro-btn:hover {
             opacity: 0.9;
         }
     </style>
 </head>
 <body>
 
-    <h1>Drawbox Galleria</h1>
+    <h1>Piirrosgalleria</h1>
     
-    <div class="top-bar">
-        <!-- Nappi josta pääsee toiselle välilehdelle piirtämään -->
-        <a href="draw.html" class="draw-btn">🎨 Piirrä oma kuva!</a>
+    <div class="nav-btn-container">
+        <!-- Nappi josta pääsee omalle piirtosivulleen -->
+        <a href="draw.html" class="retro-btn">🎨 Siirry piirtämään</a>
     </div>
 
-    <!-- Tänne skripti hakee automaattisesti piirretyt kuvat Google Sheetsistä -->
-    <div class="box">
-        <div class="title">gallerian luomukset</div>
-        <div id="gallery">Ladataan kuvia...</div>
+    <!-- Nuolinapit gallerian selaamiseen -->
+    <div style="margin-bottom: 10px;">
+        <button onclick="scrollGallery(-1)">◀ Edellinen</button>
+        <button onclick="scrollGallery(1)">Seuraava ▶</button>
     </div>
 
-    <!-- Sama tuttu skripti hoitaa kuvien haun -->
+    <!-- Tänne skripti lataa kuvat -->
+    <div id="gallery">Ladataan galleriaa...</div>
+
     <script src="drawbox.js"></script>
 </body>
 </html>
