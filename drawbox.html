@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="..\images\isda_noboarder.png">
+    <title>DRAWBOX</title>
+     <!--generic drawbox styling -->
+     <link href="drawbox.css" rel="stylesheet" type="text/css" media="all">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+ <div class="flex tutorial">
+  <div class="drawbox_con left">
+        <h1>DRAWBOX Tutorial</h1> 
+    <div class="des" id="des1">
+        <p><a href="/index.html">back to home</a></p>
+    </div>
+    <div class="TheCanvas">
+    <canvas id="drawboxcanvas" width="500px" height="500px"></canvas>
+    <br>
+    <fieldset id="controls">
+            <label for="colorpicker"><strong>Color Picker:  </strong></label>
+            <input type="color"  name="colorpicker" id="colorpicker" oninput="stroke_color = this.value; colorchoice.value = this.value"> 
+            <output name="colorchoice" id="colorchoice" for="colorpicker">black</output><br><br>
+      
+      
+ <!---you can add multiple color palettes make sure to have the value and id name match!-->
+    <!--color color gen site: https://coolors.co/?home -->
+ <label><strong>Color Palette:</strong></label>
+  <select name="palette" id="palette"  onchange="showDiv()">
+    <option value="Basic">Basic Html Colors</option>
+    <option value="Pink">Pink</option>
+    <option value="AutumnHarvest">Autumn Harvest</option>
+  </select>
+
+     <!-- https://www.w3schools.com/colors/colors_names.asp -->
+      <!--make sure the colorpicker.value is in hexdemical. Colorchoice value is the name that will display when you choose a color-->
+  <div id="Basic" class="colorPalette">
+    <div onclick="change_color(this); colorchoice.value = 'Red' ; colorpicker.value = '#ff0000'"  style="background: #ff0000;" class="stroke_color"></div>
+    <div onclick="change_color(this); colorchoice.value = 'Blue' ; colorpicker.value = '#0000ff'"  style="background: #0000ff;" class="stroke_color"></div>
+    <div onclick="change_color(this); colorchoice.value = 'Yellow' ; colorpicker.value = '#ffff00'"  style="background: #ffff00" class="stroke_color"></div>
+    <div onclick="change_color(this); colorchoice.value = 'Green' ; colorpicker.value = '#00ff00'"  style="background: #00ff00" class="stroke_color"></div>
+    <div onclick="change_color(this); colorchoice.value = 'Cyan' ; colorpicker.value = '#00ffff'"  style="background: #00ffff" class="stroke_color"></div>
+    <div onclick="change_color(this); colorchoice.value = 'Magenta' ; colorpicker.value = '#ff00ff'"  style="background: #ff00ff" class="stroke_color"></div>
+    <div onclick="change_color(this); colorchoice.value = 'Black' ; colorpicker.value = '#000000'"  style="background: #000000" class="stroke_color"></div>
+  </div>
+
+   <!-- https://coolors.co/palette/ffe5ec-ffc2d1-ffb3c6-ff8fab-fb6f92 -->
+    <div id="Pink" class="colorPalette">
+        <div onclick="change_color(this); colorchoice.value = 'Soft Blush' ; colorpicker.value = '#FFE5EC'"  style="background: #FFE5EC;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Pastel Pink' ; colorpicker.value = '#FFC2D1'"  style="background: #FFC2D1;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Cherry Blossom' ; colorpicker.value = '#FFB3C6'"  style="background: #FFB3C6;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Cotton Candy' ; colorpicker.value = '#ff8fab'"  style="background: #ff8fab;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Petal Rouge' ; colorpicker.value = '#fb6f92'"  style="background: #fb6f92;" class="stroke_color"></div>     
+   </div>
+     
+   <!-- https://coolors.co/palette/6f1d1b-bb9457-432818-99582a-ffe6a7  -->
+    <div id="AutumnHarvest" class="colorPalette">
+        <div onclick="change_color(this); colorchoice.value = 'Dark Wine' ; colorpicker.value = '#6f1d1b'"  style="background: #6f1d1b;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Camel' ; colorpicker.value = '#BB9457'"  style="background: #BB9457;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Dark Coffee' ; colorpicker.value = '#432818'"  style="background: #432818;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Chocolate Brown' ; colorpicker.value = '#99582a'"  style="background: #99582a;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'Light Apricot' ; colorpicker.value = '#ffe6a7'"  style="background: #ffe6a7;" class="stroke_color"></div>     
+   </div>
+   
+            <label for="StrokeAmount"><strong>Stroke Size: </strong></label>
+            <input type="range" id="Strokewidth" name="Strokewidth" min="1" max="100" value="2" oninput="stroke_width = this.value; StrokeAmount.value=this.value" title="stroke width">
+            <output name="StrokeAmount" id="StrokeAmount" for="Stokewidth">2</output>
+        <br><br>
+            <label for="OpacityAmount"><strong>Opacity: </strong></label>
+            <input type="range" id="Opacity" name="Opacity" step="0.05" min="0" max="1" value="1" oninput="line_opacity = this.value; OpacityAmount.value=this.value" title="Opacity width">
+            <output name="OpacityAmount" id="OpacityAmount" for="Opacity">1.00</output>
+        <br><br>
+            <label for="BrushType"><strong>Brush type:</strong></label>
+                <select id="BrushType" name="BrushType" oninput="stroke_join = this.value">
+                    <option value="round" selected>Round</option>
+                    <option value="bevel">bevel</option>
+                    <option value="miter">miter</option>
+                </select>
+         <span> | </span>
+            <label for="LineCap"><strong>Line Cap:</strong></label>
+                <select id="LineCap" name="LineCap" oninput="line_cap = this.value">
+                    <option value="round" selected>Round</option>
+                    <option value="butt">Butt</option>
+                    <option value="square">Square</option>
+                </select>
+        <br><br>
+            <label for="Name"><strong>Your Name:</strong></label>
+            <input type="text" oninput="user_name = this.value" required maxlength="30">
+        <br>
+        <br>
+</fieldset>   
+    <button onclick="Undo()" title="you can also do crtl+z">Undo</button>
+    <button onclick="Clear()" title="clear button">Clear</button>
+    <button id="submit">Submit drawing</button>
+
+    <p id="status"></p>
+    </div>
+
+    <div class="des">
+        <p>Draw Me a picture! <a href="https://3maqi.art/a/index.html">Create your own Drawbox!</a></p>
+    </div>
+    </div>
+    <div class="guide right">
+    <!-- if you want you can put text on this side -->
+</div>
+</div>
+   
+    <hr>
+    <h2>Submitted Drawings ☻</h1>
+    <hr>
+    <div id="gallery">Loading images...</div>
+    <hr>
+    <br>
+    <script src="drawbox.js"></script>
+   
+</body>
+</html>
