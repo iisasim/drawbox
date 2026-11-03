@@ -248,7 +248,8 @@ input[type="range"]::-moz-range-thumb {
 
 #status {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
     width: var(--canvasSize);
     display: block;
 }
