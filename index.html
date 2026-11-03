@@ -94,10 +94,13 @@
 </div>
    
     <!-- Otsikko -->
-    <div class="title">lähetetyt piirustukset ☻</div>
+    <div class="title">lähetetyt piirustukset</div>
     
-    <!-- Galleria (vaakavieritys ilman rumia nuolinappeja) -->
-    <div id="gallery" class="gallery-slider">ladataan...</div>
+    <div class="gallery-nav-container">
+        <button id="prevBtn" class="action-buttons button" onclick="scrollGallery(-1)">◄</button>
+        <div id="gallery" class="gallery-slider">ladataan...</div>
+        <button id="nextBtn" class="action-buttons button" onclick="scrollGallery(1)">►</button>
+    </div>
 
     <br>
     <script src="drawbox.js"></script>
