@@ -3,67 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drawbox – Galleria</title>
-    <link rel="stylesheet" href="drawbox.css">
-    <style>
-        body {
-            font-family: Helvetica, Verdana, sans-serif;
-            background: #fdfdfd;
-            padding: 20px;
-            text-align: center;
-        }
-        /* Tehdään galleriasta vaakasuunnassa selattava */
-        #gallery {
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 20px;
-            border: var(--borderStyle);
-            background: #fff;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .image-container {
-            flex: 0 0 auto; /* Estää kuvia kutistumasta */
-            width: 200px;
-        }
-        .nav-btn-container {
-            margin: 15px;
-        }
-        .retro-btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #d63384;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        .retro-btn:hover {
-            opacity: 0.9;
-        }
-    </style>
+    <link rel="icon" type="image/x-icon" href="..\images\isda_noboarder.png">
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>piirtoalusta</title>
+    <link href="drawbox.css" rel="stylesheet" type="text/css" media="all">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
+ <div class="flex tutorial">
+  <div class="drawbox_con left">
 
-    <h1>Piirrosgalleria</h1>
+    <div class="TheCanvas">
+    <canvas id="drawboxcanvas" width="280" height="280"></canvas>
     
-    <div class="nav-btn-container">
-        <!-- Nappi josta pääsee omalle piirtosivulleen -->
-        <a href="draw.html" class="retro-btn">🎨 Siirry piirtämään</a>
+    <fieldset id="controls">
+        <div class="controls-grid" style="display: flex; justify-content: space-between; align-items: flex-start;">
+            
+            <!-- Vasen puoli: Värivalitsin, paletin valinta, koko ja nimi -->
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 4px;">
+                <div>
+                    <label for="colorpicker">väri:</label>
+                    <input type="color" name="colorpicker" id="colorpicker" oninput="stroke_color = this.value; colorchoice.value = this.value"> 
+                    <output name="colorchoice" id="colorchoice" for="colorpicker">musta</output>
+                </div>
+                
+                <div>
+                    <label>paletti:</label>
+                    <select name="palette" id="palette" onchange="showDiv()">
+                        <option value="Basic">perus</option>
+                        <option value="Pink">vaaleanpunainen</option>
+                        <option value="AutumnHarvest">syksy</option>
+                        <option value="Christmas">joulu</option>
+                        <option value="Suomi">suomi</option>
+                        <option value="Chips">sipsipussi</option>
+                    </select>
+                </div>
+
+                <div style="margin-top: 4px;">
+                    <label for="StrokeAmount">koko:</label>
+                    <input type="range" id="Strokewidth" name="Strokewidth" min="1" max="50" value="2" oninput="stroke_width = this.value; StrokeAmount.value=this.value" style="width: 80px;">
+                    <output name="StrokeAmount" id="StrokeAmount" for="Stokewidth">2</output>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 4px; margin-top: 4px;">
+    <label for="Name" style="white-space: nowrap;">nimi:</label>
+    <input type="text" id="Name" oninput="user_name = this.value" required maxlength="30" placeholder="kirjoita nimesi" style="width: 50%;">
+</div>
+            </div>
+
+            <!-- Oikea ylänurkka: Väripaletit omassa lohkossaan -->
+            <div style="flex: 0 0 auto;">
+                <div id="Basic" class="colorPalette">
+                    <div onclick="change_color(this); colorchoice.value = 'punainen' ; colorpicker.value = '#ff0000'" style="background: #ff0000;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'sininen' ; colorpicker.value = '#0000ff'" style="background: #0000ff;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'keltainen' ; colorpicker.value = '#ffff00'" style="background: #ffff00" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'vihreä' ; colorpicker.value = '#00ff00'" style="background: #00ff00" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'turkoosi' ; colorpicker.value = '#00ffff'" style="background: #00ffff" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'magenta' ; colorpicker.value = '#ff00ff'" style="background: #ff00ff" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'musta' ; colorpicker.value = '#000000'" style="background: #000000" class="stroke_color"></div>
+                </div>
+
+                <div id="Pink" class="colorPalette">
+                    <div onclick="change_color(this); colorchoice.value = 'vaalea' ; colorpicker.value = '#FFE5EC'" style="background: #FFE5EC;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'roosa' ; colorpicker.value = '#FFC2D1'" style="background: #FFC2D1;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'kirsikka' ; colorpicker.value = '#FFB3C6'" style="background: #FFB3C6;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'pumpuli' ; colorpicker.value = '#ff8fab'" style="background: #ff8fab;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'pinkki' ; colorpicker.value = '#fb6f92'" style="background: #fb6f92;" class="stroke_color"></div>     
+                </div>
+                 
+                <div id="AutumnHarvest" class="colorPalette">
+                    <div onclick="change_color(this); colorchoice.value = 'viini' ; colorpicker.value = '#6f1d1b'" style="background: #6f1d1b;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'kameli' ; colorpicker.value = '#BB9457'" style="background: #BB9457;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'kahvi' ; colorpicker.value = '#432818'" style="background: #432818;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'suklaa' ; colorpicker.value = '#99582a'" style="background: #99582a;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'aprikoosi' ; colorpicker.value = '#ffe6a7'" style="background: #ffe6a7;" class="stroke_color"></div>     
+                </div>
+
+                <div id="Christmas" class="colorPalette">
+                <div onclick="change_color(this); colorchoice.value = 'joulunpunainen' ; colorpicker.value = '#c1121f'" style="background: #c1121f;" class="stroke_color"></div>
+                <div onclick="change_color(this); colorchoice.value = 'kuusi' ; colorpicker.value = '#2b9348'" style="background: #2b9348;" class="stroke_color"></div>
+                <div onclick="change_color(this); colorchoice.value = 'kulta' ; colorpicker.value = '#d4af37'" style="background: #d4af37;" class="stroke_color"></div>
+                <div onclick="change_color(this); colorchoice.value = 'lumi' ; colorpicker.value = '#f8f9fa'" style="background: #f8f9fa; border: 1px solid #ccc;" class="stroke_color"></div>
+                <div onclick="change_color(this); colorchoice.value = 'suklaa' ; colorpicker.value = '#582f0e'" style="background: #582f0e;" class="stroke_color"></div>     
+                </div>
+
+                <div id="Suomi" class="colorPalette">
+                <div onclick="change_color(this); colorchoice.value = 'sininen' ; colorpicker.value = '#002f6c'" style="background: #002f6c;" class="stroke_color"></div>
+                <div onclick="change_color(this); colorchoice.value = 'valkoinen' ; colorpicker.value = '#ffffff';" style="background: #ffffff;" class="stroke_color"></div>
+                
+                </div>
+
+                <div id="Chips" class="colorPalette">
+                <div onclick="change_color(this); colorchoice.value = 'suolattu sipsi' ; colorpicker.value = '#e9d299'" style="background: #e9d299;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'juusto' ; colorpicker.value = '#f0c14a'" style="background: #f0c14a;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'sourcream&onion' ; colorpicker.value = '#f0df97'" style="background: #f0df97;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'hot rod' ; colorpicker.value = '#f4a261'" style="background: #f4a261;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'barbecue' ; colorpicker.value = '#e76f51'" style="background: #e76f51;" class="stroke_color"></div>     
+                </div>
+
+            </div>
+
+        </div>
+    </fieldset>
+
+    <!-- Napit -->
+    <div class="action-buttons">
+        <button onclick="Undo()">kumoa</button>
+        <button onclick="Clear()">tyhjennä</button>
+        <button id="submit">lähetä</button>
     </div>
 
-    <!-- Nuolinapit gallerian selaamiseen -->
-    <div style="margin-bottom: 10px;">
-        <button onclick="scrollGallery(-1)">◀ Edellinen</button>
-        <button onclick="scrollGallery(1)">Seuraava ▶</button>
+    <p id="status"></p>
     </div>
 
-    <!-- Tänne skripti lataa kuvat -->
-    <div id="gallery">Ladataan galleriaa...</div>
+  </div>
+  <div class="guide right"></div>
+</div>
+   
+    <!-- Otsikko -->
+    <div class="title">lähetetyt piirustukset</div>
+    
+    <div class="gallery-nav-container">
+        <button id="prevBtn" class="action-buttons button" onclick="scrollGallery(-1)"><</button>
+        <div id="gallery" class="gallery-slider">ladataan...</div>
+        <button id="nextBtn" class="action-buttons button" onclick="scrollGallery(1)">></button>
+    </div>
 
+    <br>
     <script src="drawbox.js"></script>
 </body>
 </html>
