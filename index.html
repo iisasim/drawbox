@@ -77,10 +77,19 @@
     <div class="guide right"></div>
 </div>
    
-    <h3 style="font-size: 8px; text-transform: lowercase; margin: 8px 0;">lähetetyt piirustukset ☻</h3>
-    <div id="gallery">ladataan...</div>
+    <!-- Käytetään haluamaasi .title-tyyliä -->
+    <div class="title">lähetetyt piirustukset</div>
+    
+    <!-- Selauspainikkeet gallerialle -->
+    <div class="gallery-nav-container">
+        <button id="prevBtn" class="action-buttons button" onclick="scrollGallery(-1)">◄</button>
+        <div id="gallery" class="gallery-slider">ladataan...</div>
+        <button id="nextBtn" class="action-buttons button" onclick="scrollGallery(1)">►</button>
+    </div>
+
     <br>
     <script src="drawbox.js"></script>
+    
    
 </body>
 </html>
