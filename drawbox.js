@@ -154,7 +154,7 @@ if (submitBtn) {
         mode: "no-cors",
       });
 
-      statusText.textContent = "lähetetty! näkyy kunhan hyväksytään ♡";
+      statusText.textContent = "lähetetty! kuva tulee näkyviin alapuolelle kunhan se ensin hyväksytään ♡";
       Clear();
       fetchImages();
     } catch (error) {
