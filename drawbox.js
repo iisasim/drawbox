@@ -11,10 +11,15 @@ const DEBUG_MODE = false;
 const GOOGLE_SHEET_URL = "https://docs.google.com/spreadsheets/d/" + GOOGLE_SHEET_ID + "/export?format=csv";
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/" + GOOGLE_FORM_ID + "/formResponse";
 
+// ALUSTETAAN PIIRTOALUSTA VAIN JOS CANVAS LÖYTYY SIVULTA
 let canvas = document.getElementById("drawboxcanvas");
-let context = canvas.getContext("2d");
-context.fillStyle = "white";
-context.fillRect(0, 0, canvas.width, canvas.height);
+let context = null;
+
+if (canvas) {
+  context = canvas.getContext("2d");
+  context.fillStyle = "white";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+}
 
 let restore_array = [];
 let start_index = -1;
@@ -28,6 +33,7 @@ let line_cap = "round";
 let user_name = "tuntematon";
 
 function getX(event) {
+  if (!canvas) return 0;
   const rect = canvas.getBoundingClientRect();
   const scaleX = canvas.width / rect.width;
   const clientX = event.clientX || (event.targetTouches && event.targetTouches[0].clientX);
@@ -35,6 +41,7 @@ function getX(event) {
 }
 
 function getY(event) {
+  if (!canvas) return 0;
   const rect = canvas.getBoundingClientRect();
   const scaleY = canvas.height / rect.height;
   const clientY = event.clientY || (event.targetTouches && event.targetTouches[0].clientY);
@@ -46,6 +53,7 @@ function change_color(element) {
 }
 
 function start(event) {
+  if (!context) return;
   is_drawing = true;
   context.beginPath();
   context.moveTo(getX(event), getY(event));
@@ -53,7 +61,7 @@ function start(event) {
 }
 
 function draw(event) {
-  if (!is_drawing) return;
+  if (!is_drawing || !context) return;
   context.lineTo(getX(event), getY(event));
   context.strokeStyle = stroke_color;
   context.lineWidth = stroke_width;
@@ -65,7 +73,7 @@ function draw(event) {
 }
 
 function stop(event) {
-  if (!is_drawing) return;
+  if (!is_drawing || !context) return;
   context.stroke();
   context.closePath();
   is_drawing = false;
@@ -74,15 +82,18 @@ function stop(event) {
   event.preventDefault();
 }
 
-canvas.addEventListener("touchstart", start, { passive: false });
-canvas.addEventListener("touchmove", draw, { passive: false });
-canvas.addEventListener("touchend", stop, { passive: false });
-canvas.addEventListener("mousedown", start, false);
-canvas.addEventListener("mousemove", draw, false);
-canvas.addEventListener("mouseup", stop, false);
-canvas.addEventListener("mouseout", stop, false);
+if (canvas) {
+  canvas.addEventListener("touchstart", start, { passive: false });
+  canvas.addEventListener("touchmove", draw, { passive: false });
+  canvas.addEventListener("touchend", stop, { passive: false });
+  canvas.addEventListener("mousedown", start, false);
+  canvas.addEventListener("mousemove", draw, false);
+  canvas.addEventListener("mouseup", stop, false);
+  canvas.addEventListener("mouseout", stop, false);
+}
 
 function Undo() {
+  if (!context) return;
   if (start_index <= 0) {
     Clear();
   } else {
@@ -93,6 +104,7 @@ function Undo() {
 }
 
 function Clear() {
+  if (!context) return;
   context.fillStyle = "white";
   context.globalAlpha = 1;
   context.clearRect(0, 0, canvas.width, canvas.height);
@@ -102,56 +114,58 @@ function Clear() {
   context.globalAlpha = line_opacity;
 }
 
-document.getElementById("submit").addEventListener("click", async function () {
-  if (start_index <= -1) {
-    document.getElementById("status").textContent = "piirrä ensin jotain!";
-    return;
-  }
+const submitBtn = document.getElementById("submit");
+if (submitBtn) {
+  submitBtn.addEventListener("click", async function () {
+    if (start_index <= -1) {
+      document.getElementById("status").textContent = "piirrä ensin jotain!";
+      return;
+    }
 
-  const submitButton = document.getElementById("submit");
-  const statusText = document.getElementById("status");
+    const submitButton = document.getElementById("submit");
+    const statusText = document.getElementById("status");
 
-  submitButton.disabled = true;
-  statusText.textContent = "lähetetään...";
+    submitButton.disabled = true;
+    statusText.textContent = "lähetetään...";
 
-  const imageData = canvas.toDataURL("image/png");
-  const blob = await (await fetch(imageData)).blob();
-  const formData = new FormData();
-  formData.append("image", blob, "drawing.png");
+    const imageData = canvas.toDataURL("image/png");
+    const blob = await (await fetch(imageData)).blob();
+    const formData = new FormData();
+    formData.append("image", blob, "drawing.png");
 
-  try {
-    const response = await fetch("https://api.imgur.com/3/image", {
-      method: "POST",
-      headers: { Authorization: `Client-ID ${CLIENT_ID}` },
-      body: formData,
-    });
+    try {
+      const response = await fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        headers: { Authorization: `Client-ID ${CLIENT_ID}` },
+        body: formData,
+      });
 
-    const data = await response.json();
-    if (!data.success) throw new Error("epäonnistui");
+      const data = await response.json();
+      if (!data.success) throw new Error("epäonnistui");
 
-    const imageUrl = data.data.link;
-    const googleFormData = new FormData();
-    googleFormData.append(IMGUR_ID, imageUrl);
-    googleFormData.append(NAME_ID, user_name.toLowerCase());
+      const imageUrl = data.data.link;
+      const googleFormData = new FormData();
+      googleFormData.append(IMGUR_ID, imageUrl);
+      googleFormData.append(NAME_ID, user_name.toLowerCase());
 
-    await fetch(GOOGLE_FORM_URL, {
-      method: "POST",
-      body: googleFormData,
-      mode: "no-cors",
-    });
+      await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        body: googleFormData,
+        mode: "no-cors",
+      });
 
-    statusText.textContent = "lähetetty! näkyy kunhan hyväksytään ♡";
-    Clear();
-    fetchImages();
-  } catch (error) {
-    console.error(error);
-    statusText.textContent = "virhe lähetyksessä.";
-  } finally {
-    submitButton.disabled = false;
-  }
-});
+      statusText.textContent = "lähetetty! näkyy kunhan hyväksytään ♡";
+      Clear();
+      fetchImages();
+    } catch (error) {
+      console.error(error);
+      statusText.textContent = "virhe lähetyksessä.";
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+}
 
-// Gallerian selaustoiminto nuolinapeille
 function scrollGallery(direction) {
   const gallery = document.getElementById("gallery");
   if (gallery) {
@@ -159,13 +173,9 @@ function scrollGallery(direction) {
   }
 }
 
-// Ottaa mukaan sekä lyhyen päivämäärän että kellonajan (esim. 3.11.26 19:05)
-
 function formatTimestamp(rawTimestamp) {
   try {
     let cleaned = rawTimestamp.trim().replace(/"/g, "");
-    
-    // Etsitään merkkijonosta kohta, jossa on päivämäärä (sisältää pisteitä)
     let words = cleaned.split(' ');
     for (let word of words) {
       if (word.includes('.')) {
@@ -179,8 +189,6 @@ function formatTimestamp(rawTimestamp) {
         }
       }
     }
-    
-    // Jos ei löydy pisteellistä päivää, palautetaan ensimmäinen osa sellaisenaan
     return words[0];
   } catch (e) {
     return rawTimestamp;
@@ -189,20 +197,21 @@ function formatTimestamp(rawTimestamp) {
 
 async function fetchImages() {
   if (!DISPLAY_IMAGES) return;
+  const gallery = document.getElementById("gallery");
+  if (!gallery) return; // Varmistetaan että gallery-div on sivulla
 
   try {
     const response = await fetch(GOOGLE_SHEET_URL);
     const csvText = await response.text();
     const rows = csvText.split("\n").slice(1);
 
-    const gallery = document.getElementById("gallery");
     gallery.innerHTML = "";
     rows.reverse().forEach((row) => {
       const columns = row.split(",");
       if (columns.length < 2) return;
 
       const rawTimestamp = columns[0].trim().replace(/"/g, "");
-      const timestamp = formatTimestamp(rawTimestamp); // <--- Käytetään lyhennysfunktiota
+      const timestamp = formatTimestamp(rawTimestamp);
       const imgUrl = columns[1].trim().replace(/"/g, "");
       const author = columns[2].trim().replace(/"/g, "").toLowerCase();
       const approved = columns[3].trim().replace(/"/g, "");
@@ -210,7 +219,6 @@ async function fetchImages() {
       if (imgUrl.startsWith("http") && approved == "TRUE") {
         const div = document.createElement("div");
         div.classList.add("image-container");
-        // Näkyy: [aika], taiteilija: [nimi]
         div.innerHTML = `
           <img src="${imgUrl}" alt="piirustus" class="drawbox">
           <div style="font-size: 9px; line-height: 1.2;">
@@ -251,16 +259,17 @@ async function fetchImages() {
   }); 
 }
 
-
-
 fetchImages();
 
 function showDiv() {
   const dropdown = document.getElementById("palette");
+  if (!dropdown) return; // Varmistetaan että valikko löytyy
   const selectedValue = dropdown.value;
   const divs = document.querySelectorAll(".colorPalette");
 
   divs.forEach(div => div.style.display = "none");
-  document.getElementById(selectedValue).style.display = "grid";
+  const targetDiv = document.getElementById(selectedValue);
+  if (targetDiv) targetDiv.style.display = "grid";
 }
+
 showDiv();
