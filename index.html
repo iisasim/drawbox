@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="..\images\isda_noboarder.png">
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>piirtoalusta</title>
     <link href="drawbox.css" rel="stylesheet" type="text/css" media="all">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -17,53 +17,69 @@
     <canvas id="drawboxcanvas" width="280" height="280"></canvas>
     
     <fieldset id="controls">
-            <label for="colorpicker">väri: </label>
-            <input type="color" name="colorpicker" id="colorpicker" oninput="stroke_color = this.value; colorchoice.value = this.value"> 
-            <output name="colorchoice" id="colorchoice" for="colorpicker">musta</output><br><br>
-      
-  <label>paletti:</label>
-  <select name="palette" id="palette" onchange="showDiv()">
-    <option value="Basic">perus</option>
-    <option value="Pink">vaaleanpunainen</option>
-    <option value="AutumnHarvest">syksy</option>
-  </select>
+        <div class="controls-grid">
+            <!-- Vasen sarake: Värit ja paletti -->
+            <div class="control-col">
+                <div style="margin-bottom: 4px;">
+                    <label for="colorpicker">väri:</label>
+                    <input type="color" name="colorpicker" id="colorpicker" oninput="stroke_color = this.value; colorchoice.value = this.value"> 
+                    <output name="colorchoice" id="colorchoice" for="colorpicker">musta</output>
+                </div>
+                
+                <div style="margin-bottom: 4px;">
+                    <label>paletti:</label>
+                    <select name="palette" id="palette" onchange="showDiv()">
+                        <option value="Basic">perus</option>
+                        <option value="Pink">vaaleanpunainen</option>
+                        <option value="AutumnHarvest">syksy</option>
+                    </select>
+                </div>
 
-  <div id="Basic" class="colorPalette">
-    <div onclick="change_color(this); colorchoice.value = 'punainen' ; colorpicker.value = '#ff0000'" style="background: #ff0000;" class="stroke_color"></div>
-    <div onclick="change_color(this); colorchoice.value = 'sininen' ; colorpicker.value = '#0000ff'" style="background: #0000ff;" class="stroke_color"></div>
-    <div onclick="change_color(this); colorchoice.value = 'keltainen' ; colorpicker.value = '#ffff00'" style="background: #ffff00" class="stroke_color"></div>
-    <div onclick="change_color(this); colorchoice.value = 'vihreä' ; colorpicker.value = '#00ff00'" style="background: #00ff00" class="stroke_color"></div>
-    <div onclick="change_color(this); colorchoice.value = 'turkoosi' ; colorpicker.value = '#00ffff'" style="background: #00ffff" class="stroke_color"></div>
-    <div onclick="change_color(this); colorchoice.value = 'magenta' ; colorpicker.value = '#ff00ff'" style="background: #ff00ff" class="stroke_color"></div>
-    <div onclick="change_color(this); colorchoice.value = 'musta' ; colorpicker.value = '#000000'" style="background: #000000" class="stroke_color"></div>
-  </div>
+                <!-- Vaakasuora paletti -->
+                <div id="Basic" class="colorPalette">
+                    <div onclick="change_color(this); colorchoice.value = 'punainen' ; colorpicker.value = '#ff0000'" style="background: #ff0000;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'sininen' ; colorpicker.value = '#0000ff'" style="background: #0000ff;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'keltainen' ; colorpicker.value = '#ffff00'" style="background: #ffff00" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'vihreä' ; colorpicker.value = '#00ff00'" style="background: #00ff00" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'turkoosi' ; colorpicker.value = '#00ffff'" style="background: #00ffff" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'magenta' ; colorpicker.value = '#ff00ff'" style="background: #ff00ff" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'musta' ; colorpicker.value = '#000000'" style="background: #000000" class="stroke_color"></div>
+                </div>
 
-    <div id="Pink" class="colorPalette">
-        <div onclick="change_color(this); colorchoice.value = 'vaalea' ; colorpicker.value = '#FFE5EC'" style="background: #FFE5EC;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'roosa' ; colorpicker.value = '#FFC2D1'" style="background: #FFC2D1;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'kirsikka' ; colorpicker.value = '#FFB3C6'" style="background: #FFB3C6;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'pumpuli' ; colorpicker.value = '#ff8fab'" style="background: #ff8fab;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'pinkki' ; colorpicker.value = '#fb6f92'" style="background: #fb6f92;" class="stroke_color"></div>     
-   </div>
-     
-    <div id="AutumnHarvest" class="colorPalette">
-        <div onclick="change_color(this); colorchoice.value = 'viini' ; colorpicker.value = '#6f1d1b'" style="background: #6f1d1b;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'kameli' ; colorpicker.value = '#BB9457'" style="background: #BB9457;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'kahvi' ; colorpicker.value = '#432818'" style="background: #432818;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'suklaa' ; colorpicker.value = '#99582a'" style="background: #99582a;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'aprikoosi' ; colorpicker.value = '#ffe6a7'" style="background: #ffe6a7;" class="stroke_color"></div>     
-   </div>
-   
-            <label for="StrokeAmount">koko: </label>
-            <input type="range" id="Strokewidth" name="Strokewidth" min="1" max="50" value="2" oninput="stroke_width = this.value; StrokeAmount.value=this.value" style="width: 80px;">
-            <output name="StrokeAmount" id="StrokeAmount" for="Stokewidth">2</output>
-        <br><br>
-            <label for="Name">nimi:</label>
-            <input type="text" oninput="user_name = this.value" required maxlength="30" placeholder="kirjoita nimesi">
-        <br>
-</fieldset>    
+                <div id="Pink" class="colorPalette">
+                    <div onclick="change_color(this); colorchoice.value = 'vaalea' ; colorpicker.value = '#FFE5EC'" style="background: #FFE5EC;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'roosa' ; colorpicker.value = '#FFC2D1'" style="background: #FFC2D1;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'kirsikka' ; colorpicker.value = '#FFB3C6'" style="background: #FFB3C6;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'pumpuli' ; colorpicker.value = '#ff8fab'" style="background: #ff8fab;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'pinkki' ; colorpicker.value = '#fb6f92'" style="background: #fb6f92;" class="stroke_color"></div>     
+                </div>
+                 
+                <div id="AutumnHarvest" class="colorPalette">
+                    <div onclick="change_color(this); colorchoice.value = 'viini' ; colorpicker.value = '#6f1d1b'" style="background: #6f1d1b;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'kameli' ; colorpicker.value = '#BB9457'" style="background: #BB9457;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'kahvi' ; colorpicker.value = '#432818'" style="background: #432818;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'suklaa' ; colorpicker.value = '#99582a'" style="background: #99582a;" class="stroke_color"></div>
+                    <div onclick="change_color(this); colorchoice.value = 'aprikoosi' ; colorpicker.value = '#ffe6a7'" style="background: #ffe6a7;" class="stroke_color"></div>     
+                </div>
+            </div>
 
-    <!-- Nappityyli kiedottuna action-buttons -luokkaan -->
+            <!-- Oikea sarake: Siveltimen koko ja nimi -->
+            <div class="control-col">
+                <div style="margin-bottom: 6px;">
+                    <label for="StrokeAmount">koko:</label><br>
+                    <input type="range" id="Strokewidth" name="Strokewidth" min="1" max="50" value="2" oninput="stroke_width = this.value; StrokeAmount.value=this.value" style="width: 100%;">
+                    <output name="StrokeAmount" id="StrokeAmount" for="Stokewidth">2</output>
+                </div>
+                
+                <div>
+                    <label for="Name">nimi:</label><br>
+                    <input type="text" id="Name" oninput="user_name = this.value" required maxlength="30" placeholder="kirjoita nimesi" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+    </fieldset>    
+
+    <!-- Napit -->
     <div class="action-buttons">
         <button onclick="Undo()">kumoa</button>
         <button onclick="Clear()">tyhjennä</button>
@@ -73,23 +89,17 @@
     <p id="status"></p>
     </div>
 
-    </div>
-    <div class="guide right"></div>
+  </div>
+  <div class="guide right"></div>
 </div>
    
-    <!-- Käytetään haluamaasi .title-tyyliä -->
-    <div class="title">lähetetyt piirustukset</div>
+    <!-- Otsikko -->
+    <div class="title">lähetetyt piirustukset ☻</div>
     
-    <!-- Selauspainikkeet gallerialle -->
-    <div class="gallery-nav-container">
-        <button id="prevBtn" class="action-buttons button" onclick="scrollGallery(-1)">◄</button>
-        <div id="gallery" class="gallery-slider">ladataan...</div>
-        <button id="nextBtn" class="action-buttons button" onclick="scrollGallery(1)">►</button>
-    </div>
+    <!-- Galleria (vaakavieritys ilman rumia nuolinappeja) -->
+    <div id="gallery" class="gallery-slider">ladataan...</div>
 
     <br>
     <script src="drawbox.js"></script>
-    
-   
 </body>
 </html>
