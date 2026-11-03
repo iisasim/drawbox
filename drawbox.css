@@ -3,7 +3,7 @@
    ============================================================ */
 
 :root {
-    --canvasSize: 260px;
+    --canvasSize: 220px;
     --retroBg: transparent;
     --accentPink: #e197a4;
     --textDark: #564a34;
@@ -16,7 +16,7 @@
 
 body {
     font-family: Verdana, Helvetica, sans-serif;
-    font-size: 7px;
+    font-size: 10px;
     background-color: transparent;
     color: var(--textDark);
     width: 100%;
@@ -50,12 +50,12 @@ canvas {
     padding: 6px;
     background-color: transparent;
     border-radius: 2px;
-    font-size: 6.5px;
+    font-size: 10px;
 }
 
 input[type="text"], select {
     font-family: Verdana, Helvetica, sans-serif;
-    font-size: 6.5px;
+    font-size: 9px;
     padding: 2px;
     border: 1px solid #e197a4;
     background: #fff;
@@ -79,6 +79,7 @@ input[type="text"], select {
 .action-buttons button, .gallery-nav-container button {
     background: #fff;
     font: 8px 'silkscreen', arial;
+    text-transform: uppercase;
     padding: 3px 8px;
     color: #e197a4;
     border: 1px solid #e197a4;
@@ -88,23 +89,15 @@ input[type="text"], select {
 }
 
 .action-buttons button:hover, .gallery-nav-container button:hover {
-    background: #fff5f7;
+    background: #A5394D;
 }
 
 /* VÄRIPALETTI KAHTEEN SARAKKEESEEN (Säästää tilaa) */
-.colorPalette {
-    display: none;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 saraketta */
-    gap: 4px;
-    max-width: 120px;
-}
+
 
 .stroke_color {
-    width: 100%;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     border: solid #fff 1px;
     box-shadow: 0 0 0 1px var(--accentPink);
     cursor: pointer;
@@ -152,7 +145,7 @@ input[type="text"], select {
     min-width: 80px;
     max-width: 80px;
     background: #fff;
-    font-size: 5.5px;
+    font-size: 10px;
     flex: 0 0 auto;
 }
 
@@ -162,4 +155,93 @@ input[type="text"], select {
     display: block;
     border-radius: 1px;
     margin-bottom: 2px;
+}
+
+/* Tehdään vasemmasta sarakkeesta grid-alue, jotta saadaan paletti oikeaan ylänurkkaan */
+.control-col {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr auto; /* Vasemmalla tekstit, oikealla paletti */
+    grid-template-rows: auto auto;
+    gap: 4px;
+    align-items: start;
+}
+
+/* Värivalitsin ja alasvetovalikko vasemmalle */
+.color-top-row {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Väripaletti siirtyy oikeaan ylänurkkaan */
+.colorPalette {
+    display: none;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    display: none; /* JS vaihtaa tämän gridiksi valittaessa */
+    flex-wrap: wrap;
+    gap: 3px;
+    max-width: 70px; /* Pitää napit sievästi nipussa kahdessa sarakkeessa */
+}
+
+/* Kun paletti on aktiivinen, näytetään se gridinä oikeassa ylänurkassa */
+.colorPalette[style*="display: grid"], .colorPalette[style*="display: flex"] {
+    display: flex !important;
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    border: 1px solid var(--accentPink);
+    width: 24px;  /* Voit säätää leveyttä täältä */
+    height: 14px; /* Voit säätää korkeutta täältä */
+    padding: 0;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 2px;
+    vertical-align: middle;
+}
+
+/* Poistetaan selaimen omat sisäiset reunukset/laatikot */
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: none;
+    border-radius: 1px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    background: #fff;
+    border: 1px solid var(--accentPink);
+    height: 12px;
+    border-radius: 2px;
+    outline: none;
+    padding: 0 2px;
+    vertical-align: middle;
+}
+
+/* Liukusäätimen "nuppi" (thumb) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 10px;
+    background: var(--accentPink);
+    border-radius: 1px;
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 8px;
+    height: 10px;
+    background: var(--accentPink);
+    border-radius: 1px;
+    cursor: pointer;
+    border: none;
 }
