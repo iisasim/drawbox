@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="..\images\isda_noboarder.png">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
     <title>piirtoalusta</title>
     <link href="drawbox.css" rel="stylesheet" type="text/css" media="all">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -14,19 +14,18 @@
   <div class="drawbox_con left">
 
     <div class="TheCanvas">
-    <!-- Pienennetään canvasia hieman, esim. 340x340 tai 360x360, jotta se on kompakti -->
-    <canvas id="drawboxcanvas" width="360" height="360"></canvas>
-    <br>
+    <canvas id="drawboxcanvas" width="280" height="280"></canvas>
+    
     <fieldset id="controls">
-            <label for="colorpicker">värivalitsin: </label>
+            <label for="colorpicker">väri: </label>
             <input type="color" name="colorpicker" id="colorpicker" oninput="stroke_color = this.value; colorchoice.value = this.value"> 
             <output name="colorchoice" id="colorchoice" for="colorpicker">musta</output><br><br>
       
-  <label>väripaletti:</label>
+  <label>paletti:</label>
   <select name="palette" id="palette" onchange="showDiv()">
-    <option value="Basic">perusvärit</option>
+    <option value="Basic">perus</option>
     <option value="Pink">vaaleanpunainen</option>
-    <option value="AutumnHarvest">syyssävyt</option>
+    <option value="AutumnHarvest">syksy</option>
   </select>
 
   <div id="Basic" class="colorPalette">
@@ -40,52 +39,36 @@
   </div>
 
     <div id="Pink" class="colorPalette">
-        <div onclick="change_color(this); colorchoice.value = 'hennon vaalea' ; colorpicker.value = '#FFE5EC'" style="background: #FFE5EC;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'pastelliroosa' ; colorpicker.value = '#FFC2D1'" style="background: #FFC2D1;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'kirsikankukka' ; colorpicker.value = '#FFB3C6'" style="background: #FFB3C6;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'pumpulivaalea' ; colorpicker.value = '#ff8fab'" style="background: #ff8fab;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'terävä pinkki' ; colorpicker.value = '#fb6f92'" style="background: #fb6f92;" class="stroke_color"></div>     
+        <div onclick="change_color(this); colorchoice.value = 'vaalea' ; colorpicker.value = '#FFE5EC'" style="background: #FFE5EC;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'roosa' ; colorpicker.value = '#FFC2D1'" style="background: #FFC2D1;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'kirsikka' ; colorpicker.value = '#FFB3C6'" style="background: #FFB3C6;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'pumpuli' ; colorpicker.value = '#ff8fab'" style="background: #ff8fab;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'pinkki' ; colorpicker.value = '#fb6f92'" style="background: #fb6f92;" class="stroke_color"></div>     
    </div>
      
     <div id="AutumnHarvest" class="colorPalette">
-        <div onclick="change_color(this); colorchoice.value = 'tumma viini' ; colorpicker.value = '#6f1d1b'" style="background: #6f1d1b;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'kamelinruskea' ; colorpicker.value = '#BB9457'" style="background: #BB9457;" class="stroke_color"></div>
-        <div onclick="change_color(this); colorchoice.value = 'kahvinruskea' ; colorpicker.value = '#432818'" style="background: #432818;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'viini' ; colorpicker.value = '#6f1d1b'" style="background: #6f1d1b;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'kameli' ; colorpicker.value = '#BB9457'" style="background: #BB9457;" class="stroke_color"></div>
+        <div onclick="change_color(this); colorchoice.value = 'kahvi' ; colorpicker.value = '#432818'" style="background: #432818;" class="stroke_color"></div>
         <div onclick="change_color(this); colorchoice.value = 'suklaa' ; colorpicker.value = '#99582a'" style="background: #99582a;" class="stroke_color"></div>
         <div onclick="change_color(this); colorchoice.value = 'aprikoosi' ; colorpicker.value = '#ffe6a7'" style="background: #ffe6a7;" class="stroke_color"></div>     
    </div>
    
-            <label for="StrokeAmount">siveltimen koko: </label>
-            <input type="range" id="Strokewidth" name="Strokewidth" min="1" max="100" value="2" oninput="stroke_width = this.value; StrokeAmount.value=this.value">
+            <label for="StrokeAmount">koko: </label>
+            <input type="range" id="Strokewidth" name="Strokewidth" min="1" max="50" value="2" oninput="stroke_width = this.value; StrokeAmount.value=this.value" style="width: 80px;">
             <output name="StrokeAmount" id="StrokeAmount" for="Stokewidth">2</output>
         <br><br>
-            <label for="OpacityAmount">läpinäkyvyys: </label>
-            <input type="range" id="Opacity" name="Opacity" step="0.05" min="0" max="1" value="1" oninput="line_opacity = this.value; OpacityAmount.value=this.value">
-            <output name="OpacityAmount" id="OpacityAmount" for="Opacity">1.00</output>
-        <br><br>
-            <label for="BrushType">sivellintyyppi:</label>
-                <select id="BrushType" name="BrushType" oninput="stroke_join = this.value">
-                    <option value="round" selected>pyöreä</option>
-                    <option value="bevel">viistetty</option>
-                    <option value="miter">terävä</option>
-                </select>
-          <span> | </span>
-            <label for="LineCap">viivan päädyt:</label>
-                <select id="LineCap" name="LineCap" oninput="line_cap = this.value">
-                    <option value="round" selected>pyöreä</option>
-                    <option value="butt">suora</option>
-                    <option value="square">neliö</option>
-                </select>
-        <br><br>
-            <label for="Name">nimesi:</label>
+            <label for="Name">nimi:</label>
             <input type="text" oninput="user_name = this.value" required maxlength="30" placeholder="kirjoita nimesi">
         <br>
-        <br>
 </fieldset>    
-    <!-- Muutettu käyttämään sivustosi .toggle-btn -tyyliä -->
-    <button onclick="Undo()" class="toggle-btn">kumoa</button>
-    <button onclick="Clear()" class="toggle-btn">tyhjennä</button>
-    <button id="submit" class="toggle-btn">lähetä piirustus</button>
+
+    <!-- Nappityyli kiedottuna action-buttons -luokkaan -->
+    <div class="action-buttons">
+        <button onclick="Undo()">kumoa</button>
+        <button onclick="Clear()">tyhjennä</button>
+        <button id="submit">lähetä</button>
+    </div>
 
     <p id="status"></p>
     </div>
@@ -94,9 +77,8 @@
     <div class="guide right"></div>
 </div>
    
-    <!-- Poistettu viivat tekstin ympäriltä ja pienennetty otsikkoa -->
-    <h3 style="font-size: 9px; text-transform: lowercase; margin: 10px 0;">lähetetyt piirustukset ☻</h3>
-    <div id="gallery">ladataan kuvia...</div>
+    <h3 style="font-size: 8px; text-transform: lowercase; margin: 8px 0;">lähetetyt piirustukset ☻</h3>
+    <div id="gallery">ladataan...</div>
     <br>
     <script src="drawbox.js"></script>
    
