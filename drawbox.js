@@ -27,7 +27,6 @@ let stroke_join = "round";
 let line_cap = "round";
 let user_name = "tuntematon";
 
-// Korjattu kursorin ja koordinaattien laskenta (skaalausyhteensopiva)
 function getX(event) {
   const rect = canvas.getBoundingClientRect();
   const scaleX = canvas.width / rect.width;
@@ -141,7 +140,7 @@ document.getElementById("submit").addEventListener("click", async function () {
       mode: "no-cors",
     });
 
-    statusText.textContent = "lähetetty! näkyy kunhan se hyväksytään ♡";
+    statusText.textContent = "lähetetty! näkyy kunhan hyväksytään ♡";
     Clear();
     fetchImages();
   } catch (error) {
@@ -151,6 +150,14 @@ document.getElementById("submit").addEventListener("click", async function () {
     submitButton.disabled = false;
   }
 });
+
+// Gallerian selaustoiminto nuolinapeille
+function scrollGallery(direction) {
+  const gallery = document.getElementById("gallery");
+  if (gallery) {
+    gallery.scrollBy({ left: direction * 100, behavior: 'smooth' });
+  }
+}
 
 async function fetchImages() {
   if (!DISPLAY_IMAGES) return;
@@ -166,6 +173,7 @@ async function fetchImages() {
       const columns = row.split(",");
       if (columns.length < 2) return;
 
+      const timestamp = columns[0].trim().toLowerCase();
       const imgUrl = columns[1].trim().replace(/"/g, "");
       const author = columns[2].trim().replace(/"/g, "").toLowerCase();
       const approved = columns[3].trim().replace(/"/g, "");
@@ -173,9 +181,12 @@ async function fetchImages() {
       if (imgUrl.startsWith("http") && approved == "TRUE") {
         const div = document.createElement("div");
         div.classList.add("image-container");
+        // Näkyy: [aika], taiteilija: [nimi]
         div.innerHTML = `
           <img src="${imgUrl}" alt="piirustus" class="drawbox">
-          <p>${author}</p>
+          <div style="font-size: 5px; line-height: 1.2;">
+            ${timestamp}<br>taiteilija: ${author}
+          </div>
         `;
         gallery.appendChild(div);
       }
@@ -219,6 +230,6 @@ function showDiv() {
   const divs = document.querySelectorAll(".colorPalette");
 
   divs.forEach(div => div.style.display = "none");
-  document.getElementById(selectedValue).style.display = "flex";
+  document.getElementById(selectedValue).style.display = "grid";
 }
 showDiv();
