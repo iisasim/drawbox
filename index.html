@@ -3,26 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="..\images\isda_noboarder.png">
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <title>piirtoalusta</title>
-    <link href="drawbox.css" rel="stylesheet" type="text/css" media="all">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <title>Drawbox - Galleria</title>
+    <link rel="stylesheet" href="drawbox.css">
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            background: #fdfdfd;
+            padding: 20px;
+            text-align: center;
+        }
+        .top-bar {
+            margin-bottom: 20px;
+        }
+        /* Tyylikäs nappi millä pääsee piirtämään */
+        .draw-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--accentPink, #d63384);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .draw-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
 </head>
 <body>
- 
-   
-    <!-- Otsikko -->
-    <div class="title">lähetetyt piirustukset</div>
+
+    <h1>Drawbox Galleria</h1>
     
-    <div class="gallery-nav-container">
-        <button id="prevBtn" class="action-buttons button" onclick="scrollGallery(-1)"><</button>
-        <div id="gallery" class="gallery-slider">ladataan...</div>
-        <button id="nextBtn" class="action-buttons button" onclick="scrollGallery(1)">></button>
+    <div class="top-bar">
+        <!-- Nappi josta pääsee toiselle välilehdelle piirtämään -->
+        <a href="draw.html" class="draw-btn">🎨 Piirrä oma kuva!</a>
     </div>
 
-    <br>
+    <!-- Tänne skripti hakee automaattisesti piirretyt kuvat Google Sheetsistä -->
+    <div class="box">
+        <div class="title">gallerian luomukset</div>
+        <div id="gallery">Ladataan kuvia...</div>
+    </div>
+
+    <!-- Sama tuttu skripti hoitaa kuvien haun -->
     <script src="drawbox.js"></script>
 </body>
 </html>
