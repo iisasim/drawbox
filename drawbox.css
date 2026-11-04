@@ -252,4 +252,9 @@ input[type="range"]::-moz-range-thumb {
     margin-bottom: 4px;
     width: var(--canvasSize);
     display: block;
+
+    min-height: 28px;     /* Varaa valmiiksi tilaa yhdelle tai kahdelle riville (säädä tarvittaessa) */
+    line-height: 1.4;     /* Pitää tekstin siististi linjassa */
+    overflow: hidden;     /* Estää ylimääräisen valumisen ulos */
 }
+
